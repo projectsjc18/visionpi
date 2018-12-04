@@ -2,7 +2,7 @@
 // Pulls Mongoose dependency for creating schemas
 var mongoose    = require('mongoose');
 var Schema      = mongoose.Schema;
-var bcrypt      = require('bcrypt');
+var bcrypt      = require('bcryptjs');
 
 // Creates a User Schema. This will be the basis of how user data is stored in the db
 var UserSchema = new Schema({
