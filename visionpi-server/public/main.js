@@ -2346,7 +2346,7 @@ __webpack_require__.r(__webpack_exports__);
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-var urlDev = 'https://localhost:80';
+var urlDev = 'http://localhost:80';
 var environment = {
     production: false,
     apiUrl: urlDev,
@@ -2401,7 +2401,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Versiones\visionpi\visionpi-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Backup\visionpi-client\src\main.ts */"./src/main.ts");
 
 
 /***/ })
