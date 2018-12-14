@@ -2,11 +2,11 @@
 // Dependencies
 // -----------------------------------------------------
 var fs              = require('fs');
-var https           = require('https');
-//var http            = require('http');
+//var https           = require('https');
+var http            = require('http');
 var express         = require('express');
 var mongoose        = require('mongoose');
-var port            = process.env.PORT || 5555;
+var port            = process.env.PORT || 80;
 var morgan          = require('morgan');
 var bodyParser      = require('body-parser');
 var methodOverride  = require('method-override');
@@ -17,8 +17,8 @@ var options = {
 };
 var passport	= require('passport');
 var config      = require('./config/database'); 
-var server = https.createServer(options, app);
-//var server = http.createServer(app);
+//var server = https.createServer(options, app);
+var server = http.createServer(app);
 var io = require('socket.io')(server);
 // Express Configuration 
 // -----------------------------------------------------
