@@ -7,8 +7,8 @@ var GpxSchema = new mongoose.Schema({
   collective: String,
   route: String,
   checkpoint: String,
-  lat: String,
-  lng: String,
+  lat: Number,
+  lng: Number,
   updated_at: { type: Date, default: Date.now },
 });
 

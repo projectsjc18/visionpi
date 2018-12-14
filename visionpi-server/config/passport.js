@@ -6,6 +6,7 @@ var User = require('../app/models/usermodel');
 var config = require('../config/database'); // get db config file
  
 module.exports = function(passport) {
+
   var opts = {};
   opts.jwtFromRequest = ExtractJwt.fromAuthHeader();
   opts.secretOrKey = config.secret;

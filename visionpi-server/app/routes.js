@@ -47,7 +47,7 @@ module.exports = function(app,passport,io,config) {
     });
 
     // route to a restricted info (GET http://localhost:8080/users/privileges)
-    app.get('/users/privileges', passport.authenticate('jwt', { session: false}), function(req, res) {
+    app.get('/api/users/privileges', passport.authenticate('jwt', { session: false}), function(req, res) {
         //console.log(req.headers);
         var token = getToken(req.headers);
         var optionsmenu = [];
@@ -99,7 +99,7 @@ module.exports = function(app,passport,io,config) {
     
     // route to authenticate a user (POST http://localhost:8080/api/authenticate)
     app.post('/api/authenticate', function(req, res) {
-        console.log('User' + req.body.usarname + '' + req.body.password);
+        //console.log('User' + req.body.usarname + '' + req.body.password);
         User.findOne({
             username: req.body.username
         }, function(err, user) {
@@ -120,7 +120,8 @@ module.exports = function(app,passport,io,config) {
                             username: user.username,
                             firstName: user.firstName,
                             lastName: user.lastName,
-                            token: token//jwt.sign({ sub: user._id }, config.secret)
+                            token: token,//jwt.sign({ sub: user._id }, config.secret)
+                            nextPage: '/home/user'
                         });
                         //res.json({user: user, token: token});
                         res.send(usr);
@@ -197,7 +198,7 @@ module.exports = function(app,passport,io,config) {
     });
 
     /* GET ALL GPX */
-    app.get('/gpx/checkpoints', passport.authenticate('jwt', { session: false}), function(req, res, next) {
+    app.get('/api/gpx/checkpoints', /*passport.authenticate('jwt', { session: false}),*/ function(req, res, next) {
         var token = getToken(req.headers);
         if (token) {
             var decoded = jwt.decode(token, config.secret);
@@ -222,11 +223,40 @@ module.exports = function(app,passport,io,config) {
         }       
     });
 
+    /* GET ALL GPX BY ROUTE */
+    app.get('/api/gpx/checkpoints/:routeId', /*passport.authenticate('jwt', { session: false}),*/ function(req, res, next) {
+        var token = getToken(req.headers);
+        if (token) {
+            var decoded = jwt.decode(token, config.secret);
+            User.findOne({
+                username: decoded.username
+            }, function(err, user) {
+                if (err) throw err;
+ 
+                if (!user) {
+                    console.log("Authentication failed. User not found.");
+                    return res.status(403).send({success: false, msg: 'Authentication failed. User not found.'});
+                } else {
+                    console.log("Ruta: " + req.params.routeId);
+                    Gpx.find({ fleet: user.username, route: req.params.routeId }, function (err, checkpoints) {
+                        if (err) return next(err);
+                            res.json(checkpoints);
+                    });
+                }
+            });
+        } else {
+            console.log("No token provided.");
+            return res.status(403).send({success: false, msg: 'No token provided.'});
+        }       
+    });
+
     /* SAVE GPX */
     app.post('/api/gpx', function(req, res, next) {
+        console.log("Esto llega: \n" + req.body)
         // Creates a new User based on the Mongoose schema and the post bo.dy
         var newgpx = new Gpx(req.body);
 
+        console.log("Nuevo gpx: \n" + newgpx)
         // New User is saved in the db.
         newgpx.save(function(err){
             if(err)
