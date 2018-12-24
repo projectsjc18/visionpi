@@ -281,7 +281,7 @@ module.exports = function(app,passport,io,config) {
         socket.on('disconnect', function() {
             console.log('User disconnected');
         });
-        socket.on('save-gpx', function (data) {
+        socket.on('connectionUserGpx', function (data) {
             console.log(data);
             socket.join(data.room);
             //io.to('testroom2').emit('event',{ message: data });
