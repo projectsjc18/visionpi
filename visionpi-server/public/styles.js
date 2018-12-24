@@ -573,18 +573,18 @@ if(false) {}
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!************************************************************************************************!*\
   !*** multi ./node_modules/@angular/material/prebuilt-themes/indigo-pink.css ./src/styles.scss ***!
   \************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Backup\visionpi-client\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
-module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Backup\visionpi-client\src\styles.scss */"./src/styles.scss");
+__webpack_require__(/*! C:\Users\jcruz\Documents\ProyectsJC\Development\VisionPi_beta\visionpi\visionpi-client\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
+module.exports = __webpack_require__(/*! C:\Users\jcruz\Documents\ProyectsJC\Development\VisionPi_beta\visionpi\visionpi-client\src\styles.scss */"./src/styles.scss");
 
 
 /***/ })
 
-},[[2,"runtime"]]]);
+},[[3,"runtime"]]]);
 //# sourceMappingURL=styles.js.map

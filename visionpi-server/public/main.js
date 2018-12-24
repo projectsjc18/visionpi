@@ -1131,6 +1131,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../_helpers */ "./src/app/_helpers/index.ts");
 /* harmony import */ var _services_http_error_handler_service__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../_services/http-error-handler.service */ "./src/app/_services/http-error-handler.service.ts");
 /* harmony import */ var _services_message_service__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../../_services/message.service */ "./src/app/_services/message.service.ts");
+/* harmony import */ var ngx_socket_io__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! ngx-socket-io */ "./node_modules/ngx-socket-io/index.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1152,6 +1153,8 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
+var config = { url: 'http://localhost:5555', options: {} };
 var GeolocalizationModule = /** @class */ (function () {
     function GeolocalizationModule() {
     }
@@ -1159,6 +1162,7 @@ var GeolocalizationModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
+                ngx_socket_io__WEBPACK_IMPORTED_MODULE_15__["SocketIoModule"].forRoot(config),
                 _geolocalization_routing_module__WEBPACK_IMPORTED_MODULE_6__["GeolocalizationRoutingModule"],
                 _agm_core__WEBPACK_IMPORTED_MODULE_3__["AgmCoreModule"].forRoot({
                     apiKey: 'AIzaSyB3j8h3zpEvJQk9yBw9HYdZou8RMJdlPWM'
@@ -1233,6 +1237,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MapComponent", function() { return MapComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services */ "./src/app/_services/index.ts");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1244,17 +1250,32 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var MapComponent = /** @class */ (function () {
     function MapComponent(gpxService) {
         this.gpxService = gpxService;
+        //private socket$: WebSocketSubject<any>;
+        //public serverMessages = new Array<any>();
         //title: string = 'Ruta 1';
         //lat: number;
         //lng: number;
         this.zoom = 15;
         this.checkpoints = [];
         this.checkpointsLines = [];
+        this.joinned = false;
+        this.newUser = { user: '', fleet: '' };
+        this.msgData = { fleet: '', user: '', checkpoint: '' };
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__('http://104.197.146.69:80');
     }
     MapComponent.prototype.ngOnInit = function () {
+        this.joinRoom();
+        var user = JSON.parse(localStorage.getItem("currentUser"));
+        this.socket.on('event', function (data) {
+            if (data.message.user === user.username && data.message.route == this.routeId) {
+                this.newCheckpoint = data.message;
+                this.checkpoints.push(this.newCheckpoint);
+            }
+        }.bind(this));
         this.loadCheckpoints();
     };
     MapComponent.prototype.loadCheckpoints = function () {
@@ -1264,6 +1285,12 @@ var MapComponent = /** @class */ (function () {
         });
         //this.lat = this.checkpoints[0].lat;
         //this.lng = this.checkpoints[0].long;
+    };
+    MapComponent.prototype.joinRoom = function () {
+        var date = new Date();
+        var user = JSON.parse(localStorage.getItem("currentUser"));
+        this.joinned = true;
+        this.socket.emit('connectionUserGpx', { room: user.username, username: user.username, message: 'Join this room', updated_at: date });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -1370,8 +1397,8 @@ var TrackerComponent = /** @class */ (function () {
                 ];
             }
             return [
-                { routeName: 'Ruta 1', routeId: '1', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
-                { routeName: 'Ruta 2', routeId: '2', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
+                { routeName: 'Ruta 1', routeId: '2', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
+                { routeName: 'Ruta 2', routeId: '1', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
                 { routeName: 'Ruta 3', routeId: '3', lat: 19.788509, lng: -99.055316, cols: 1, rows: 1 },
             ];
         }));
@@ -1983,23 +2010,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomeModule", function() { return HomeModule; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _angular_common__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common */ "./node_modules/@angular/common/fesm5/common.js");
-/* harmony import */ var _home_routing_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./home-routing.module */ "./src/app/home/home/home-routing.module.ts");
-/* harmony import */ var _home_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./home.component */ "./src/app/home/home/home.component.ts");
-/* harmony import */ var _home_nav_home_nav_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../home-nav/home-nav.component */ "./src/app/home/home-nav/home-nav.component.ts");
-/* harmony import */ var _home_dashboard_home_dashboard_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../home-dashboard/home-dashboard.component */ "./src/app/home/home-dashboard/home-dashboard.component.ts");
-/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
-/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
-/* harmony import */ var _home_user_navigation_home_user_navigation_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../home-user-navigation/home-user-navigation.component */ "./src/app/home/home-user-navigation/home-user-navigation.component.ts");
-/* harmony import */ var _home_user_dashboard_home_user_dashboard_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../home-user-dashboard/home-user-dashboard.component */ "./src/app/home/home-user-dashboard/home-user-dashboard.component.ts");
-/* harmony import */ var _home_administration_navigation_home_administration_navigation_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../home-administration-navigation/home-administration-navigation.component */ "./src/app/home/home-administration-navigation/home-administration-navigation.component.ts");
-/* harmony import */ var _home_administration_dashboard_home_administration_dashboard_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../home-administration-dashboard/home-administration-dashboard.component */ "./src/app/home/home-administration-dashboard/home-administration-dashboard.component.ts");
-/* harmony import */ var _geolocalization_geolocalization_geolocalization_module__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../../geolocalization/geolocalization/geolocalization.module */ "./src/app/geolocalization/geolocalization/geolocalization.module.ts");
+/* harmony import */ var _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/platform-browser/animations */ "./node_modules/@angular/platform-browser/fesm5/animations.js");
+/* harmony import */ var _home_routing_module__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./home-routing.module */ "./src/app/home/home/home-routing.module.ts");
+/* harmony import */ var _home_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./home.component */ "./src/app/home/home/home.component.ts");
+/* harmony import */ var _home_nav_home_nav_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../home-nav/home-nav.component */ "./src/app/home/home-nav/home-nav.component.ts");
+/* harmony import */ var _home_dashboard_home_dashboard_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../home-dashboard/home-dashboard.component */ "./src/app/home/home-dashboard/home-dashboard.component.ts");
+/* harmony import */ var _angular_material__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/material */ "./node_modules/@angular/material/esm5/material.es5.js");
+/* harmony import */ var _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @angular/material/form-field */ "./node_modules/@angular/material/esm5/form-field.es5.js");
+/* harmony import */ var _home_user_navigation_home_user_navigation_component__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../home-user-navigation/home-user-navigation.component */ "./src/app/home/home-user-navigation/home-user-navigation.component.ts");
+/* harmony import */ var _home_user_dashboard_home_user_dashboard_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../home-user-dashboard/home-user-dashboard.component */ "./src/app/home/home-user-dashboard/home-user-dashboard.component.ts");
+/* harmony import */ var _home_administration_navigation_home_administration_navigation_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../home-administration-navigation/home-administration-navigation.component */ "./src/app/home/home-administration-navigation/home-administration-navigation.component.ts");
+/* harmony import */ var _home_administration_dashboard_home_administration_dashboard_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../home-administration-dashboard/home-administration-dashboard.component */ "./src/app/home/home-administration-dashboard/home-administration-dashboard.component.ts");
+/* harmony import */ var _geolocalization_geolocalization_geolocalization_module__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../../geolocalization/geolocalization/geolocalization.module */ "./src/app/geolocalization/geolocalization/geolocalization.module.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -2020,30 +2049,31 @@ var HomeModule = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["NgModule"])({
             imports: [
                 _angular_common__WEBPACK_IMPORTED_MODULE_1__["CommonModule"],
-                _home_routing_module__WEBPACK_IMPORTED_MODULE_2__["HomeRoutingModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatToolbarModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatButtonModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatSidenavModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatIconModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatGridListModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatCardModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatMenuModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatTableModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatPaginatorModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatSortModule"],
-                _angular_material__WEBPACK_IMPORTED_MODULE_6__["MatInputModule"],
-                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_7__["MatFormFieldModule"],
-                _geolocalization_geolocalization_geolocalization_module__WEBPACK_IMPORTED_MODULE_12__["GeolocalizationModule"]
+                _home_routing_module__WEBPACK_IMPORTED_MODULE_3__["HomeRoutingModule"],
+                _angular_platform_browser_animations__WEBPACK_IMPORTED_MODULE_2__["BrowserAnimationsModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatToolbarModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatButtonModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatSidenavModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatIconModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatGridListModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatCardModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatMenuModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatTableModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatPaginatorModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatSortModule"],
+                _angular_material__WEBPACK_IMPORTED_MODULE_7__["MatInputModule"],
+                _angular_material_form_field__WEBPACK_IMPORTED_MODULE_8__["MatFormFieldModule"],
+                _geolocalization_geolocalization_geolocalization_module__WEBPACK_IMPORTED_MODULE_13__["GeolocalizationModule"]
             ],
             declarations: [
-                _home_component__WEBPACK_IMPORTED_MODULE_3__["HomeComponent"],
-                _home_nav_home_nav_component__WEBPACK_IMPORTED_MODULE_4__["HomeNavComponent"],
-                _home_dashboard_home_dashboard_component__WEBPACK_IMPORTED_MODULE_5__["HomeDashboardComponent"],
-                _home_user_navigation_home_user_navigation_component__WEBPACK_IMPORTED_MODULE_8__["HomeUserNavigationComponent"],
-                _home_user_dashboard_home_user_dashboard_component__WEBPACK_IMPORTED_MODULE_9__["HomeUserDashboardComponent"],
-                _home_administration_navigation_home_administration_navigation_component__WEBPACK_IMPORTED_MODULE_10__["HomeAdministrationNavigationComponent"],
-                _home_administration_dashboard_home_administration_dashboard_component__WEBPACK_IMPORTED_MODULE_11__["HomeAdministrationDashboardComponent"],
+                _home_component__WEBPACK_IMPORTED_MODULE_4__["HomeComponent"],
+                _home_nav_home_nav_component__WEBPACK_IMPORTED_MODULE_5__["HomeNavComponent"],
+                _home_dashboard_home_dashboard_component__WEBPACK_IMPORTED_MODULE_6__["HomeDashboardComponent"],
+                _home_user_navigation_home_user_navigation_component__WEBPACK_IMPORTED_MODULE_9__["HomeUserNavigationComponent"],
+                _home_user_dashboard_home_user_dashboard_component__WEBPACK_IMPORTED_MODULE_10__["HomeUserDashboardComponent"],
+                _home_administration_navigation_home_administration_navigation_component__WEBPACK_IMPORTED_MODULE_11__["HomeAdministrationNavigationComponent"],
+                _home_administration_dashboard_home_administration_dashboard_component__WEBPACK_IMPORTED_MODULE_12__["HomeAdministrationDashboardComponent"],
             ]
         })
     ], HomeModule);
@@ -2346,7 +2376,7 @@ __webpack_require__.r(__webpack_exports__);
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-var urlDev = 'http://35.232.229.55:80';
+var urlDev = 'http://104.197.146.69:80';
 var environment = {
     production: false,
     apiUrl: urlDev,
@@ -2381,6 +2411,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/platform-browser-dynamic */ "./node_modules/@angular/platform-browser-dynamic/fesm5/platform-browser-dynamic.js");
 /* harmony import */ var _app_app_module__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./app/app.module */ "./src/app/app.module.ts");
 /* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./environments/environment */ "./src/environments/environment.ts");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! hammerjs */ "./node_modules/hammerjs/hammer.js");
+/* harmony import */ var hammerjs__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(hammerjs__WEBPACK_IMPORTED_MODULE_4__);
+
 
 
 
@@ -2401,8 +2434,19 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Backup\visionpi-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\jcruz\Documents\ProyectsJC\Development\VisionPi_beta\visionpi\visionpi-client\src\main.ts */"./src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 
