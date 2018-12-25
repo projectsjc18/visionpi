@@ -1397,8 +1397,8 @@ var TrackerComponent = /** @class */ (function () {
                 ];
             }
             return [
-                { routeName: 'Ruta 1', routeId: '2', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
-                { routeName: 'Ruta 2', routeId: '1', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
+                { routeName: 'Ruta 1', routeId: '1', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
+                { routeName: 'Ruta 2', routeId: '2', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
                 { routeName: 'Ruta 3', routeId: '3', lat: 19.788509, lng: -99.055316, cols: 1, rows: 1 },
             ];
         }));
