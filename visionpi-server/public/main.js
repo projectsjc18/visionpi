@@ -1050,7 +1050,7 @@ var GeolocalizationRoutingModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<geolocalization-tracker></geolocalization-tracker>\n"
+module.exports = "<h2 class=\"mat-h2\">Geolocalización > Monitoreo de Rutas</h2>\n<mat-divider></mat-divider>\n<geolocalization-tracker></geolocalization-tracker>\n"
 
 /***/ }),
 
@@ -1061,7 +1061,7 @@ module.exports = "<geolocalization-tracker></geolocalization-tracker>\n"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".mat-h2, .mat-title, .mat-typography h2 {\n  font: 300 20px/32px Roboto, \"Helvetica Neue\", sans-serif;\n  margin: 5px 16px 5px; }\n"
 
 /***/ }),
 
@@ -1210,7 +1210,7 @@ var GeolocalizationModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-card class=\"example-card\">\n  <mat-card-header>\n    <div mat-card-avatar class=\"example-header-image\"></div>\n    <mat-card-title>{{routeName}}</mat-card-title>\n    <!--<mat-card-subtitle>Camino 1 a Camino 2</mat-card-subtitle>-->\n  </mat-card-header>\n  <agm-map [latitude]=\"lat\" [longitude]=\"lng\" [zoom]=\"zoom\">\n  \t<agm-marker\n      *ngFor=\"let point of checkpoints\"\n      [latitude]=\"point.lat\"\n      [longitude]=\"point.lng\"\n      [label]=\"point.checkpoint\">\n    </agm-marker>\n    <agm-polyline [editable]=\"true\">\n      <agm-polyline-point \n        *ngFor=\"let line of checkpointsLines\" \n        [latitude]=\"line.lat\"\n        [longitude]=\"line.lng\">\n      </agm-polyline-point>\n    </agm-polyline>\n  </agm-map>\n  <mat-card-content>\n    <p>Coordenadas</p>\n  </mat-card-content>\n  <mat-card-actions>\n    <button mat-button (click)=\"loadCheckpoints()\">Video</button>\n    <button mat-button>Revisión</button>\n    <button mat-button>Notificación</button>\n  </mat-card-actions>\n</mat-card>\n"
+module.exports = "<mat-card class=\"visionpi-map-card\">\n  <mat-card-header>\n    <!--<div mat-card-avatar class=\"example-header-image\"></div>-->\n    <mat-card-title>\n      {{routeName}}\n      <button mat-icon-button class=\"refresh-button\" (click)=\"loadCheckpoints()\" >\n        <mat-icon>refresh</mat-icon>\n      </button>\n      <button mat-icon-button class=\"more-button\" [matMenuTriggerFor]=\"menu\" aria-label=\"Toggle menu\">\n        <mat-icon>more_vert</mat-icon>\n      </button>\n      <mat-menu #menu=\"matMenu\" xPosition=\"before\">\n        <button mat-menu-item>Video</button>\n        <button mat-menu-item>Revisión</button>\n        <button mat-menu-item>Notificación</button>\n      </mat-menu>\n    </mat-card-title>\n    <!--<mat-card-subtitle>Camino 1 a Camino 2</mat-card-subtitle>-->\n  </mat-card-header>\n  <agm-map [latitude]=\"lat\" [longitude]=\"lng\" [zoom]=\"zoom\">\n  \t<agm-marker\n      *ngFor=\"let point of checkpoints\"\n      [latitude]=\"point.lat\"\n      [longitude]=\"point.lng\"\n      [label]=\"point.checkpoint\">\n    </agm-marker>\n    <agm-polyline [editable]=\"true\">\n      <agm-polyline-point \n        *ngFor=\"let line of checkpointsLines\" \n        [latitude]=\"line.lat\"\n        [longitude]=\"line.lng\">\n      </agm-polyline-point>\n    </agm-polyline>\n  </agm-map>\n  <mat-card-content>\n    <mat-list>\n      <p> Último punto de control: \n        <span> {{lastCheckpoint.checkpoint}} </span>\n        <span> -- {{lastCheckpoint.fleet}} </span>\n        <span> -- {{lastCheckpoint.collective}} </span>\n        <span> -- {{lastCheckpoint.operator}} </span>\n        <span> -- {{lastCheckpoint.updated_at}} </span>\n      </p>\n    </mat-list>\n  </mat-card-content>\n  <!--\n  <mat-card-actions>\n    <button mat-button (click)=\"loadCheckpoints()\">Video</button>\n    <button mat-button>Revisión</button>\n    <button mat-button>Notificación</button>\n  </mat-card-actions>\n  -->\n</mat-card>\n"
 
 /***/ }),
 
@@ -1221,7 +1221,7 @@ module.exports = "<mat-card class=\"example-card\">\n  <mat-card-header>\n    <d
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "agm-map {\n  width: 100%;\n  height: 200px; }\n"
+module.exports = ".mat-card .mat-card-subtitle, .mat-card-content, .mat-card-header .mat-card-title {\n  font-family: Roboto, \"Helvetica Neue\", sans-serif;\n  font-weight: 300; }\n\nagm-map {\n  width: 100%;\n  height: 200px; }\n\n.visionpi-map-card {\n  /*position: absolute;*/\n  top: 15px;\n  /*left: 15px;\r\n  right: 15px;*/\n  bottom: 15px; }\n\n.refresh-button {\n  position: absolute;\n  top: 5px;\n  right: 40px; }\n\n.more-button {\n  position: absolute;\n  top: 5px;\n  right: 10px; }\n"
 
 /***/ }),
 
@@ -1239,6 +1239,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _services__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../_services */ "./src/app/_services/index.ts");
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
 /* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _environments_environment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../environments/environment */ "./src/environments/environment.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1251,21 +1252,17 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MapComponent = /** @class */ (function () {
     function MapComponent(gpxService) {
         this.gpxService = gpxService;
-        //private socket$: WebSocketSubject<any>;
-        //public serverMessages = new Array<any>();
-        //title: string = 'Ruta 1';
-        //lat: number;
-        //lng: number;
         this.zoom = 15;
         this.checkpoints = [];
         this.checkpointsLines = [];
         this.joinned = false;
         this.newUser = { user: '', fleet: '' };
         this.msgData = { fleet: '', user: '', checkpoint: '' };
-        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__('http://104.197.146.69:80');
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__(_environments_environment__WEBPACK_IMPORTED_MODULE_3__["environment"].apiUrl);
     }
     MapComponent.prototype.ngOnInit = function () {
         this.joinRoom();
@@ -1281,7 +1278,9 @@ var MapComponent = /** @class */ (function () {
     MapComponent.prototype.loadCheckpoints = function () {
         var _this = this;
         this.gpxService.getCheckpointsByRoute(this.routeId).subscribe(function (checkpoints) {
-            _this.checkpoints = checkpoints, _this.checkpointsLines = checkpoints;
+            _this.checkpoints = checkpoints,
+                _this.checkpointsLines = checkpoints,
+                _this.lastCheckpoint = checkpoints[checkpoints.length - 1];
         });
         //this.lat = this.checkpoints[0].lat;
         //this.lng = this.checkpoints[0].long;
@@ -1330,7 +1329,7 @@ var MapComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"grid-container\">\n  <h1 class=\"mat-h1\">Seguimiento de Rutas</h1>\n  <mat-grid-list cols=\"2\" rowHeight=\"350px\">\n    <mat-grid-tile *ngFor=\"let map of maps | async\" [colspan]=\"map.cols\" [rowspan]=\"map.rows\">\n    \t<geolocalization-map  [routeName]=\"map.routeName\" \n                            [routeId]=\"map.routeId\" \n                            [lat]=\"map.lat\" \n                            [lng]=\"map.lng\">\n      </geolocalization-map>\n      <!--<mat-card class=\"dashboard-map\">\n        <mat-card-header>\n          <mat-card-title>\n            {{card.title}}\n            <button mat-icon-button class=\"more-button\" [matMenuTriggerFor]=\"menu\" aria-label=\"Toggle menu\">\n              <mat-icon>more_vert</mat-icon>\n            </button>\n            <mat-menu #menu=\"matMenu\" xPosition=\"before\">\n              <button mat-menu-item>Expand</button>\n              <button mat-menu-item>Remove</button>\n            </mat-menu>\n          </mat-card-title>\n        </mat-card-header>\n        <mat-card-content class=\"dashboard-card-content\">\n          <div>Card Content Here</div>\n        </mat-card-content>\n      </mat-card>-->\n    </mat-grid-tile>\n  </mat-grid-list>\n</div>\n\n"
+module.exports = "<div class=\"grid-container\">\n  <!--<h1 class=\"mat-h1\">Geolocalización > Monitoreo de Rutas</h1>-->\n  <mat-grid-list cols=\"2\" rowHeight=\"350px\">\n    <mat-grid-tile *ngFor=\"let map of maps | async\" [colspan]=\"map.cols\" [rowspan]=\"map.rows\">\n    \t<geolocalization-map  [routeName]=\"map.routeName\" \n                            [routeId]=\"map.routeId\" \n                            [lat]=\"map.lat\" \n                            [lng]=\"map.lng\">\n      </geolocalization-map>\n    </mat-grid-tile>\n  </mat-grid-list>\n</div>\n\n"
 
 /***/ }),
 
@@ -1341,7 +1340,7 @@ module.exports = "<div class=\"grid-container\">\n  <h1 class=\"mat-h1\">Seguimi
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "geolocalization-map {\n  width: 100%; }\n"
+module.exports = "geolocalization-map {\n  width: 100%; }\n\n.mat-h1, .mat-headline, .mat-typography h1 {\n  font: 400 24px/32px Roboto, \"Helvetica Neue\", sans-serif;\n  margin: 5px 16px 16px; }\n\n.mat-h2, .mat-title, .mat-typography h2 {\n  font: 500 20px/32px Roboto, \"Helvetica Neue\", sans-serif;\n  margin: 5px 16 16px; }\n"
 
 /***/ }),
 
@@ -1383,7 +1382,6 @@ var TrackerComponent = /** @class */ (function () {
         this.loadCheckpoints();
     }
     TrackerComponent.prototype.ngOnInit = function () {
-        var _this = this;
         //this.loadCheckpoints();
         //const test = this.checkpoints[0];
         /** Based on the screen size, switch from standard to one column per row */
@@ -1391,14 +1389,14 @@ var TrackerComponent = /** @class */ (function () {
             var matches = _a.matches;
             if (matches) {
                 return [
-                    { title: 'Ruta 1', cols: 2, rows: 1, checkpoints: _this.checkpointsuno },
-                    { title: 'Ruta 2', cols: 2, rows: 1, checkpoints: _this.checkpointsdos },
-                    { title: 'Ruta 3', cols: 2, rows: 1, checkpoints: _this.checkpointstres },
+                    { routeName: 'Ruta 1', routeId: '2', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
+                    { routeName: 'Ruta 2', routeId: '1', lat: 19.608115, lng: -99.189329, cols: 2, rows: 1 },
+                    { routeName: 'Ruta 3', routeId: '3', lat: 19.788509, lng: -99.055316, cols: 2, rows: 1 },
                 ];
             }
             return [
-                { routeName: 'Ruta 1', routeId: '1', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
-                { routeName: 'Ruta 2', routeId: '2', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
+                { routeName: 'Ruta 1', routeId: '2', lat: 20.071817, lng: -99.368798, cols: 2, rows: 1 },
+                { routeName: 'Ruta 2', routeId: '1', lat: 19.608115, lng: -99.189329, cols: 1, rows: 1 },
                 { routeName: 'Ruta 3', routeId: '3', lat: 19.788509, lng: -99.055316, cols: 1, rows: 1 },
             ];
         }));
@@ -1715,7 +1713,7 @@ var HomeNavComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"grid-container\">\n  <h1 class=\"mat-h1\">Dashboard</h1>\n  <mat-grid-list cols=\"2\" rowHeight=\"350px\">\n    <mat-grid-tile *ngFor=\"let card of cards | async\" [colspan]=\"card.cols\" [rowspan]=\"card.rows\">\n      <mat-card class=\"dashboard-card\">\n        <mat-card-header>\n          <mat-card-title>\n            {{card.title}}\n            <button mat-icon-button class=\"more-button\" [matMenuTriggerFor]=\"menu\" aria-label=\"Toggle menu\">\n              <mat-icon>more_vert</mat-icon>\n            </button>\n            <mat-menu #menu=\"matMenu\" xPosition=\"before\">\n              <button mat-menu-item>Expand</button>\n              <button mat-menu-item>Remove</button>\n            </mat-menu>\n          </mat-card-title>\n        </mat-card-header>\n        <mat-card-content class=\"dashboard-card-content\">\n          <div>Card Content Here</div>\n        </mat-card-content>\n      </mat-card>\n    </mat-grid-tile>\n  </mat-grid-list>\n</div>\n"
+module.exports = "<div class=\"grid-container\">\n  <h1 class=\"mat-h1\">Dashboard</h1>\n  <mat-divider></mat-divider>\n  <mat-grid-list cols=\"2\" rowHeight=\"350px\">\n    <mat-grid-tile *ngFor=\"let card of cards | async\" [colspan]=\"card.cols\" [rowspan]=\"card.rows\">\n      <mat-card class=\"dashboard-card\">\n        <mat-card-header>\n          <mat-card-title>\n            {{card.title}}\n            <button mat-icon-button class=\"more-button\" [matMenuTriggerFor]=\"menu\" aria-label=\"Toggle menu\">\n              <mat-icon>more_vert</mat-icon>\n            </button>\n            <mat-menu #menu=\"matMenu\" xPosition=\"before\">\n              <button mat-menu-item>Expand</button>\n              <button mat-menu-item>Remove</button>\n            </mat-menu>\n          </mat-card-title>\n        </mat-card-header>\n        <mat-card-content class=\"dashboard-card-content\">\n          <div>Card Content Here</div>\n        </mat-card-content>\n      </mat-card>\n    </mat-grid-tile>\n  </mat-grid-list>\n</div>\n"
 
 /***/ }),
 
@@ -1799,7 +1797,7 @@ var HomeUserDashboardComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav\n    #drawer\n    class=\"sidenav\"\n    fixedInViewport=\"true\"\n    [attr.role]=\"(isHandset$ | async) ? 'dialog' : 'navigation'\"\n    [mode]=\"(isHandset$ | async) ? 'over' : 'side'\"\n    [opened]=\"!(isHandset$ | async)\">\n    <mat-toolbar color=\"primary\">VisionPi</mat-toolbar>\n    <mat-nav-list>\n      <a mat-list-item routerLink=\"/home/user/principal\">Principal</a>\n      <a mat-list-item routerLink=\"/home/user/video\">Video</a>\n      <a mat-list-item routerLink=\"/home/user/geolocalization\">Geolocalización</a>\n      <!--<a mat-list-item href=\"#\">Link 1</a>\n      <a mat-list-item href=\"#\">Link 2</a>\n      <a mat-list-item href=\"#\">Link 3</a>-->\n    </mat-nav-list>\n  </mat-sidenav>\n  <mat-sidenav-content>\n    <mat-toolbar color=\"primary\">\n      <button\n        type=\"button\"\n        aria-label=\"Toggle sidenav\"\n        mat-icon-button\n        (click)=\"drawer.toggle()\"\n        *ngIf=\"isHandset$ | async\">\n        <mat-icon aria-label=\"Side nav toggle icon\">menu</mat-icon>\n      </button>\n      <span>Principal</span>\n    </mat-toolbar>\n    <!-- Add Content Here -->\n    <router-outlet></router-outlet>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n"
+module.exports = "<div class=\"visionpi-container\" [class.visionpi-is-mobile]=\"mobileQuery.matches\">\n  <mat-toolbar color=\"primary\" class=\"visionpi-toolbar\">\n    <button mat-icon-button (click)=\"snav.toggle()\"><mat-icon>menu</mat-icon></button>\n    <h1 class=\"visionpi-app-name\">VisionPi</h1>\n  </mat-toolbar>\n\n  <mat-sidenav-container class=\"visionpi-sidenav-container\"\n                         [style.marginTop.px]=\"mobileQuery.matches ? 56 : 0\">\n    <mat-sidenav #snav [mode]=\"mobileQuery.matches ? 'over' : 'side'\"\n                 [fixedInViewport]=\"mobileQuery.matches\" fixedTopGap=\"56\">\n      <mat-nav-list>\n        <a mat-list-item routerLink=\"/home/user/principal\">Principal</a>\n        <a mat-list-item routerLink=\"/home/user/video\">Video</a>\n        <a mat-list-item routerLink=\"/home/user/geolocalization\">Geolocalización</a>\n        <!--<a mat-list-item href=\"#\">Link 1</a>\n        <a mat-list-item href=\"#\">Link 2</a>\n        <a mat-list-item href=\"#\">Link 3</a>-->\n        <!--<a mat-list-item routerLink=\".\" *ngFor=\"let nav of fillerNav\">{{nav}}</a>-->\n      </mat-nav-list>\n    </mat-sidenav>\n\n    <mat-sidenav-content>\n      <!-- Add Content Here -->\n      <router-outlet></router-outlet>\n    </mat-sidenav-content>\n  </mat-sidenav-container>\n</div>\n\n\n\n<!--\n<mat-sidenav-container class=\"sidenav-container\">\n  <mat-sidenav\n    #drawer\n    class=\"sidenav\"\n    fixedInViewport=\"true\"\n    [attr.role]=\"(isHandset$ | async) ? 'dialog' : 'navigation'\"\n    [mode]=\"(isHandset$ | async) ? 'over' : 'side'\"\n    [opened]=\"!(isHandset$ | async)\">\n    <!-<mat-toolbar color=\"primary\">VisionPi</mat-toolbar>->\n    <mat-nav-list>\n      <a mat-list-item routerLink=\"/home/user/principal\">Principal</a>\n      <a mat-list-item routerLink=\"/home/user/video\">Video</a>\n      <a mat-list-item routerLink=\"/home/user/geolocalization\">Geolocalización</a>\n      <!-<a mat-list-item href=\"#\">Link 1</a>\n      <a mat-list-item href=\"#\">Link 2</a>\n      <a mat-list-item href=\"#\">Link 3</a>->\n    </mat-nav-list>\n  </mat-sidenav>\n  <mat-sidenav-content>\n    <mat-toolbar color=\"primary\">\n      <button\n        type=\"button\"\n        aria-label=\"Toggle sidenav\"\n        mat-icon-button\n        (click)=\"drawer.toggle()\"\n        *ngIf=\"isHandset$ | async\">\n        <mat-icon aria-label=\"Side nav toggle icon\">menu</mat-icon>\n      </button>\n      <span>{{titleCurrentOption}}</span>\n    </mat-toolbar>\n    <!- Add Content Here ->\n    <router-outlet></router-outlet>\n  </mat-sidenav-content>\n</mat-sidenav-container>\n-->"
 
 /***/ }),
 
@@ -1810,7 +1808,7 @@ module.exports = "<mat-sidenav-container class=\"sidenav-container\">\n  <mat-si
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ""
+module.exports = ".visionpi-container {\n  display: flex;\n  flex-direction: column;\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0; }\n\n.visionpi-is-mobile .visionpi-toolbar {\n  position: fixed;\n  /* Make sure the toolbar will stay on top of the content as it scrolls past. */\n  z-index: 2; }\n\nh1.visionpi-app-name {\n  margin-left: 8px; }\n\n.visionpi-sidenav-container {\n  /* When the sidenav is not fixed, stretch the sidenav container to fill the available space. This\r\n     causes `<mat-sidenav-content>` to act as our scrolling element for desktop layouts. */\n  flex: 1; }\n\n.visionpi-is-mobile .visionpi-sidenav-container {\n  /* When the sidenav is fixed, don't constrain the height of the sidenav container. This allows the\r\n     `<body>` to be our scrolling element for mobile layouts. */\n  flex: 1 0 auto; }\n"
 
 /***/ }),
 
@@ -1840,18 +1838,25 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 var HomeUserNavigationComponent = /** @class */ (function () {
-    function HomeUserNavigationComponent(breakpointObserver) {
+    function HomeUserNavigationComponent(breakpointObserver, changeDetectorRef, media) {
         this.breakpointObserver = breakpointObserver;
+        this.titleCurrentOption = 'VisionPi';
         this.isHandset$ = this.breakpointObserver.observe(_angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["Breakpoints"].Handset)
             .pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (result) { return result.matches; }));
+        this.mobileQuery = media.matchMedia('(max-width: 600px)');
+        this._mobileQueryListener = function () { return changeDetectorRef.detectChanges(); };
+        this.mobileQuery.addListener(this._mobileQueryListener);
     }
+    HomeUserNavigationComponent.prototype.ngOnDestroy = function () {
+        this.mobileQuery.removeListener(this._mobileQueryListener);
+    };
     HomeUserNavigationComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'home-user-navigation',
             template: __webpack_require__(/*! ./home-user-navigation.component.html */ "./src/app/home/home-user-navigation/home-user-navigation.component.html"),
             styles: [__webpack_require__(/*! ./home-user-navigation.component.scss */ "./src/app/home/home-user-navigation/home-user-navigation.component.scss")]
         }),
-        __metadata("design:paramtypes", [_angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["BreakpointObserver"]])
+        __metadata("design:paramtypes", [_angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["BreakpointObserver"], _angular_core__WEBPACK_IMPORTED_MODULE_0__["ChangeDetectorRef"], _angular_cdk_layout__WEBPACK_IMPORTED_MODULE_1__["MediaMatcher"]])
     ], HomeUserNavigationComponent);
     return HomeUserNavigationComponent;
 }());
@@ -2123,7 +2128,7 @@ module.exports = "<mat-card class=\"example-card\">\n  <mat-card-header color=\"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".example-card {\n  /*background: rgba(148, 151, 158,0.3);*/\n  min-width: 150px;\n  max-width: 400px;\n  width: 100%;\n  position: fixed;\n  bottom: 0;\n  right: 0; }\n\n.example-header-image {\n  /*background-image: url('../../../assets/img/examples/shiba1.jpg');\r\n  */\n  background-size: cover; }\n\n.example-form {\n  width: 500px; }\n\n.example-full-width {\n  width: 100%; }\n"
+module.exports = ".example-card {\n  /*background: rgba(148, 151, 158,0.3);*/\n  min-width: 150px;\n  max-width: 300px;\n  width: 100%;\n  position: fixed;\n  bottom: 0;\n  right: 0; }\n\n.example-header-image {\n  /*background-image: url('../../../assets/img/examples/shiba1.jpg');\r\n  */\n  background-size: cover; }\n\n.example-form {\n  width: 500px; }\n\n.example-full-width {\n  width: 100%; }\n"
 
 /***/ }),
 
@@ -2376,7 +2381,7 @@ __webpack_require__.r(__webpack_exports__);
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
-var urlDev = 'http://104.197.146.69:80';
+var urlDev = 'http://35.226.102.221:80';
 var environment = {
     production: false,
     apiUrl: urlDev,
@@ -2434,7 +2439,7 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\jcruz\Documents\ProyectsJC\Development\VisionPi_beta\visionpi\visionpi-client\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Versiones\visionpi-client\src\main.ts */"./src/main.ts");
 
 
 /***/ }),

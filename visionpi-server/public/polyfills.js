@@ -5474,7 +5474,7 @@ window.global = window;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! C:\Users\jcruz\Documents\ProyectsJC\Development\VisionPi_beta\visionpi\visionpi-client\src\polyfills.ts */"./src/polyfills.ts");
+module.exports = __webpack_require__(/*! C:\Users\xmy9712\Documents\JCProjects\Versiones\visionpi-client\src\polyfills.ts */"./src/polyfills.ts");
 
 
 /***/ })
